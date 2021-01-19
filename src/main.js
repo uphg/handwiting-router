@@ -34,7 +34,6 @@ function render(container, path, route) {
   addElement(container, route)
   // 根据路由添加元素
   function addElement(container, route) {
-    console.log(route)
     // debugger
     // 获取当前路由对象
     const beforePath = route.filter(item => item.path === basePath[beforeIndex])
@@ -50,13 +49,13 @@ function render(container, path, route) {
       goTo404(container)
       return false
     }
+
     let childView = outermost.querySelector('div[data-hg="view"]')
     if(childView) {
       // 不论之前是否有元素，每次重载路由都要清除它的子元素
       clearNode(outermost.querySelector('div[data-hg="view"]'))
     }
-    console.log('beforeIndex')
-    console.log(beforeIndex)
+
     let childPath = null
     let childObject = null
     // 判断路由数组的 length - 1 是否大于循环次数，如果大于，说明已经没有子路由
@@ -67,27 +66,16 @@ function render(container, path, route) {
       childObject = beforePath[0].children
 
       childPath = childObject.filter(item => item.path === basePath[beforeIndex])
-      
+
       childView.appendChild(childPath[0].component)
-      // console.log('childPath')
-      // console.log(childPath)
-      
+
     }
-    // console.log(container)
-    // console.log(222)
-    // console.log(outermost)
-    if(!container.appendChild) {
-      return false
+
+    if(beforeIndex === 0 || beforeIndex === 1) {
+      container.appendChild(outermost)
     }
-    console.log('container')
-    console.log(container)
-    console.log('outermost')
-    console.log(outermost)
-    container.appendChild(outermost)
-    
-    
+
     if(childPath && childPath[0].children) {
-      console.log(childPath[0].component)
       addElement(childPath[0].component, childObject)
     }
   }
@@ -107,5 +95,7 @@ function clearNode(el) {
 
 // 跳转至 404
 function goTo404(el) {
+  console.log('el')
+  console.log(el)
   el.appendChild(page404)
 }

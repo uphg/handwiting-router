@@ -28,7 +28,28 @@ export default [
           {
             id: '1/2/3',
             path: '3',
-            component: createDiv('1.2.3'),
+            component: createDiv('1.2.3', true),
+            children: [
+              {
+                id: '1/2/3/1',
+                path: '1',
+                component: createDiv('1.2.3.1', true),
+                children: [
+                  {
+                    id: '1/2/3/1/demo',
+                    path: 'demo',
+                    component: createDiv('1.2.3.1 - demo', true),
+                    children: [
+                      {
+                        id: '1/2/3/1/demo/part',
+                        path: 'part',
+                        component: createDiv('1.2.3.1 - demo - part'),
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       },

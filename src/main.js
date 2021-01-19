@@ -43,7 +43,7 @@ function render(container, path, route) {
     if (beforePath.length < 1) { return false }
 
     // 获取路由所渲染的组件
-    const outermost = beforePath[0].component
+    let outermost = beforePath[0].component
 
     // 如果 div 不存在，则渲染 404 页面
     if (!outermost) {
@@ -76,7 +76,16 @@ function render(container, path, route) {
     // console.log(container)
     // console.log(222)
     // console.log(outermost)
+    if(!container.appendChild) {
+      return false
+    }
+    console.log('container')
+    console.log(container)
+    console.log('outermost')
+    console.log(outermost)
     container.appendChild(outermost)
+    
+    
     if(childPath && childPath[0].children) {
       console.log(childPath[0].component)
       addElement(childPath[0].component, childObject)
@@ -84,24 +93,6 @@ function render(container, path, route) {
   }
 
 }
-
-// 其他情况
-function toXxx(container, outermost) {
-  // 如果 div 不存在，则渲染 404 页面
-  if (!outermost) {
-    goTo404(container)
-    return false
-  }
-  let childView = outermost.querySelector('div[data-hg="view"]')
-  if(childView) {
-    // 不论之前是否有元素，每次重载路由都要清除它的子元素
-    clearNode(outermost.querySelector('div[data-hg="view"]'))
-    return childView
-  }
-  
-}
-
-
 
 // 获取路由路径信息
 function getRoute() {

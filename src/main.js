@@ -3,21 +3,12 @@ import { createDiv } from './create-dom'
 
 const app = document.querySelector('#app')
 
-// 创建路由 hash 表
-const hash = {
-  '1': createDiv('1'),
-  '2': createDiv('2'),
-  '3': createDiv('3'),
-  '4': createDiv('4')
-}
-
 // 生成 404 页面
 const page404 = createDiv('404')
 
 router(app, route)
 
 window.addEventListener('hashchange', () => {
-  console.log(app)
   router(app, route)
 })
 
@@ -30,26 +21,87 @@ function router(container, route) {
     container.appendChild(createDiv('1'))
     return false
   }
+
   clearNode(container)
-  // const div = hash[number]
-  const beforePath = route.filter(item => item.path === path[0])
-  const outermost = beforePath[0].component
-  let childView = outermost.querySelector('.view-container')
-  // 不论之前是否有元素，都要清除它的子元素
-  clearNode(childView)
+
+  render(container, path, route)
+
+}
+
+function render(container, path, route) {
+  let beforeIndex = 0
+  let basePath = path
+  addElement(container, route)
+  // 根据路由添加元素
+  function addElement(container, route) {
+    console.log(route)
+    // debugger
+    // 获取当前路由对象
+    const beforePath = route.filter(item => item.path === basePath[beforeIndex])
+
+    // 路由不存在，退出
+    if (beforePath.length < 1) { return false }
+
+    // 获取路由所渲染的组件
+    const outermost = beforePath[0].component
+
+    // 如果 div 不存在，则渲染 404 页面
+    if (!outermost) {
+      goTo404(container)
+      return false
+    }
+    let childView = outermost.querySelector('div[data-hg="view"]')
+    if(childView) {
+      // 不论之前是否有元素，每次重载路由都要清除它的子元素
+      clearNode(outermost.querySelector('div[data-hg="view"]'))
+    }
+    console.log('beforeIndex')
+    console.log(beforeIndex)
+    let childPath = null
+    let childObject = null
+    // 判断路由数组的 length - 1 是否大于循环次数，如果大于，说明已经没有子路由
+    if (beforeIndex < basePath.length - 1) {
+      beforeIndex += 1
+
+      // 获取子路由对象
+      childObject = beforePath[0].children
+
+      childPath = childObject.filter(item => item.path === basePath[beforeIndex])
+      
+      childView.appendChild(childPath[0].component)
+      // console.log('childPath')
+      // console.log(childPath)
+      
+    }
+    // console.log(container)
+    // console.log(222)
+    // console.log(outermost)
+    container.appendChild(outermost)
+    if(childPath && childPath[0].children) {
+      console.log(childPath[0].component)
+      addElement(childPath[0].component, childObject)
+    }
+  }
+
+}
+
+// 其他情况
+function toXxx(container, outermost) {
   // 如果 div 不存在，则渲染 404 页面
   if (!outermost) {
     goTo404(container)
     return false
   }
-  // 如果存在子元素，获取子元素的 view 容器
-  if (path.length === 2) {
-    const array = beforePath[0].children
-    const childPath = array.filter(item => item.path === path[1])
-    childView.appendChild(childPath[0].component)
+  let childView = outermost.querySelector('div[data-hg="view"]')
+  if(childView) {
+    // 不论之前是否有元素，每次重载路由都要清除它的子元素
+    clearNode(outermost.querySelector('div[data-hg="view"]'))
+    return childView
   }
-  container.appendChild(outermost)
+  
 }
+
+
 
 // 获取路由路径信息
 function getRoute() {

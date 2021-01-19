@@ -6,14 +6,34 @@ export default [
     component: createDiv('1', true),
     children: [
       {
+        id: '1/1',
         path: '1',
         component: createDiv('1.1')
       },
       {
+        id: '1/2',
         path: '2',
-        component: createDiv('1.2')
+        component: createDiv('1.2', true),
+        children: [
+          {
+            id: '1/2/1',
+            path: '1',
+            component: createDiv('1.2.1'),
+          },
+          {
+            id: '1/2/2',
+            path: '2',
+            component: createDiv('1.2.2'),
+          },
+          {
+            id: '1/2/3',
+            path: '3',
+            component: createDiv('1.2.3'),
+          }
+        ]
       },
       {
+        id: '1/3',
         path: '3',
         component: createDiv('1.3')
       }

@@ -3,6 +3,7 @@ import { createElement } from './create-dom'
 export default [
   {
     path: '1',
+    id: '1',
     component: createElement('1', true),
     children: [
       {
@@ -62,54 +63,66 @@ export default [
   },
   {
     path: '2',
+    id: '2',
     component: createElement('2', true),
     children: [
       {
         path: '1',
+        id: '2/1',
         component: createElement('2.1')
       },
       {
         path: '2',
+        id: '2/2',
         component: createElement('2.2')
       },
       {
         path: '3',
+        id: '2/3',
         component: createElement('2.3')
       }
     ]
   },
   {
     path: '3',
+    id: '3',
     component: createElement('3', true),
     children: [
       {
         path: '1',
+        id: '3/1',
         component: createElement('3.1')
       },
       {
         path: '2',
+        id: '3/2',
         component: createElement('3.2')
       },
       {
         path: '3',
+        id: '3/3',
         component: createElement('3.3')
       }
     ]
   },
   {
     path: '4',
+    id: '4',
     component: createElement('4', true),
     children: [
       {
         path: '1',
+        id: '4/1',
         component: createElement('4.1')
       },
       {
         path: '2',
+        id: '4/2',
         component: createElement('4.2')
       },
       {
         path: '3',
+        id: '4/3',
         component: createElement('4.3')
       }
     ]

@@ -1,3 +1,5 @@
+// # 最终版思路，优化代码，使用更简洁的代码实现完整的功能
+
 import route from './hash'
 
 const app = document.querySelector('#app')
@@ -24,7 +26,7 @@ function mounted(app, route) {
     if (!hash) { return false }
     const view = hash.component.querySelector('div[data-hg="view"]')
 
-    if (view) { view.innerHTML = '' } // view.appendChild(hash.component)
+    if (view) { view.innerHTML = '' }
     
     if (index < base.length - 1) {
       index += 1

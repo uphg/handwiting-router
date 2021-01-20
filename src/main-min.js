@@ -1,3 +1,5 @@
+// # 第二版思路（渲染组件位置错误）
+
 import route from './hash'
 
 const app = document.querySelector('#app')

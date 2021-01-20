@@ -1,3 +1,5 @@
+// # 第一版思路，功能实现正确，但代码过于繁琐
+
 import route from './hash'
 import { createElement } from './create-dom'
 

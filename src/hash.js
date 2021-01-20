@@ -69,7 +69,24 @@ export default [
       {
         path: '1',
         id: '2/1',
-        component: createElement('2.1')
+        component: createElement('2.1', true),
+        children: [
+          {
+            path: '1',
+            id: '2/1/1',
+            component: createElement('2.1.1'),
+          },
+          {
+            path: '2',
+            id: '2/1/2',
+            component: createElement('2.1.2'),
+          },
+          {
+            path: '3',
+            id: '2/1/3',
+            component: createElement('2.1.3'),
+          }
+        ]
       },
       {
         path: '2',

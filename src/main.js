@@ -1,10 +1,10 @@
 import route from './route'
-import { createDiv } from './create-dom'
+import { createElement } from './create-dom'
 
 const app = document.querySelector('#app')
 
 // 生成 404 页面
-const page404 = createDiv('404')
+const page404 = createElement('404')
 
 router(app, route)
 
@@ -18,7 +18,7 @@ function router(container, route) {
   const path = getRoute()
 
   if (!path[0]) {
-    container.appendChild(createDiv('1'))
+    container.appendChild(createElement('1'))
     return false
   }
 
@@ -34,15 +34,15 @@ function render(container, path, route) {
   addElement(container, route)
   // 根据路由添加元素
   function addElement(container, route) {
-    // debugger
+
     // 获取当前路由对象
-    const beforePath = route.filter(item => item.path === basePath[beforeIndex])
+    const beforePath = filterPath(route, basePath[beforeIndex])
 
     // 路由不存在，退出
-    if (beforePath.length < 1) { return false }
+    if (!beforePath) { return false }
 
     // 获取路由所渲染的组件
-    let outermost = beforePath[0].component
+    let outermost = beforePath.component
 
     // 如果 div 不存在，则渲染 404 页面
     if (!outermost) {
@@ -61,22 +61,21 @@ function render(container, path, route) {
     // 判断路由数组的 length - 1 是否大于循环次数，如果大于，说明已经没有子路由
     if (beforeIndex < basePath.length - 1) {
       beforeIndex += 1
-
       // 获取子路由对象
-      childObject = beforePath[0].children
-
-      childPath = childObject.filter(item => item.path === basePath[beforeIndex])
-
-      childView.appendChild(childPath[0].component)
-
+      childObject = beforePath.children
+      childPath = filterPath(childObject, basePath[beforeIndex])
+      childView.appendChild(childPath.component)
     }
 
-    if(beforeIndex === 0 || beforeIndex === 1) {
+    if(container !== outermost) {
       container.appendChild(outermost)
     }
 
-    if(childPath && childPath[0].children) {
-      addElement(childPath[0].component, childObject)
+    // container.appendChild(outermost)
+
+    // 判断是否存在子路由，存在继续循环
+    if(childPath && childPath.children) {
+      addElement(childPath.component, childObject)
     }
   }
 
@@ -86,6 +85,11 @@ function render(container, path, route) {
 function getRoute() {
   const string = window.location.hash.substr(1)
   return String(string).split('/') || false
+}
+
+function filterPath(array, value) {
+  const result = array.filter(item => item.path === value)
+  return result[0]
 }
 
 // 清空当前节点子元素

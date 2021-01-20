@@ -1,4 +1,4 @@
-export function createDiv(text, view) {
+export function createElement(text, view) {
   const div = document.createElement('div')
   const h2 = document.createElement('h2')
 

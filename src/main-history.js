@@ -9,7 +9,6 @@ initLinkChange()
 mounted(app, route)
 // 每次点击链接后通知页面内容刷新
 function onStateChange() {
-  console.log('url改变了')
   mounted(app, route)
 }
 
